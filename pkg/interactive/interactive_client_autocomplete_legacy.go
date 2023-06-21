@@ -7,7 +7,6 @@ import (
 	"github.com/turbot/steampipe/pkg/steampipeconfig/modconfig"
 	"golang.org/x/exp/maps"
 	"sort"
-	"strings"
 )
 
 func (c *InteractiveClient) initialiseSuggestionsLegacy() {
@@ -125,8 +124,4 @@ func (c *InteractiveClient) initialiseTableSuggestionsLegacy() {
 	for _, table := range unqualifiedTablesToAdd {
 		c.suggestions.unqualifiedTables = append(c.suggestions.unqualifiedTables, prompt.Suggest{Text: table, Description: "Table", Output: sanitiseTableName(table)})
 	}
-}
-
-func stripVersionFromPluginName(pluginName string) string {
-	return strings.Split(pluginName, "@")[0]
 }
