@@ -3,12 +3,13 @@ package metaquery
 import (
 	"context"
 	"fmt"
-	"github.com/turbot/steampipe/pkg/error_helpers"
 	"log"
 	"regexp"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/turbot/steampipe/pkg/error_helpers"
 
 	"github.com/turbot/steampipe/pkg/constants"
 	"github.com/turbot/steampipe/pkg/display"
@@ -67,6 +68,7 @@ func inspectSchemaOrUnqualifiedTable(tableOrConnection string, input *HandlerInp
 	// there was no schema
 	// add the temporary schema to the search_path so that it becomes searchable
 	// for the next step
+	//nolint:golint,gocritic // we don't want to modify the input value
 	searchPath := append(input.SearchPath, input.Schema.TemporarySchemaName)
 
 	// go through the searchPath one by one and try to find the table by this name
@@ -86,12 +88,6 @@ func inspectSchemaOrUnqualifiedTable(tableOrConnection string, input *HandlerInp
 	}
 
 	return fmt.Errorf("could not find connection or table called '%s'. Is the plugin installed? Is the connection configured?", tableOrConnection)
-
-	fmt.Printf(`
-To get information about the columns in a table, run %s
-	
-`, constants.Bold(".inspect {connection}.{table}"))
-	return nil
 }
 
 // list all the tables in the schema
